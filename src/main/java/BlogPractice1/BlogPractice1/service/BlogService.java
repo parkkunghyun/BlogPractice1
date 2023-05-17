@@ -2,10 +2,12 @@ package BlogPractice1.BlogPractice1.service;
 
 import BlogPractice1.BlogPractice1.domain.Article;
 import BlogPractice1.BlogPractice1.dto.AddArticleRequest;
+import BlogPractice1.BlogPractice1.dto.UpdateArticleRequest;
 import BlogPractice1.BlogPractice1.repository.BlogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,5 +33,14 @@ public class BlogService {
 
     public void delete(long id) {
         blogRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Article update(long id, UpdateArticleRequest request) {
+        Article findArticle = blogRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("not found " + id));
+
+        findArticle.update(request.getTitle(), request.getContent());
+        return findArticle;
     }
 }

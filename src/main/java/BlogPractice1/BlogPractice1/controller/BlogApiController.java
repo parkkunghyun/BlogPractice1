@@ -3,6 +3,7 @@ package BlogPractice1.BlogPractice1.controller;
 import BlogPractice1.BlogPractice1.domain.Article;
 import BlogPractice1.BlogPractice1.dto.AddArticleRequest;
 import BlogPractice1.BlogPractice1.dto.ArticleResponse;
+import BlogPractice1.BlogPractice1.dto.UpdateArticleRequest;
 import BlogPractice1.BlogPractice1.service.BlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,13 @@ public class BlogApiController {
     public ResponseEntity<Void> deleteArticle(@PathVariable long id) {
         blogService.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/api/articles/{id}")
+    public ResponseEntity<Article> updateArticle(@PathVariable long id, @RequestBody UpdateArticleRequest request) {
+        Article article = blogService.update(id,request);
+        return ResponseEntity.ok().body(article);
+
     }
 
 }
